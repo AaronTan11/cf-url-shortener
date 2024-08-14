@@ -48,17 +48,13 @@ export async function shortenUrl(formData: FormData) {
 	}
 
 	const shortUrlTableId = generateIdFromEntropySize(16);
-	try {
-		await db.insert(shortUrlTable).values({
-			id: shortUrlTableId,
-			originalUrl: url,
-			shortCode,
-			title,
-		});
 
-		return redirect(`/url/${shortUrlTableId}`);
-	} catch (error) {
-		console.error("Error creating short URL:", error);
-		return { error: "Failed to create short URL" };
-	}
+	await db.insert(shortUrlTable).values({
+		id: shortUrlTableId,
+		originalUrl: url,
+		shortCode,
+		title,
+	});
+
+	return redirect(`/url/${shortUrlTableId}`);
 }
