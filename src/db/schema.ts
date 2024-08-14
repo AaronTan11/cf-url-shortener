@@ -20,3 +20,13 @@ export const shortUrlTable = sqliteTable("short_url", {
 	shortCode: text("short_code").notNull(),
 	title: text("title").notNull(),
 });
+
+export const analyticsTable = sqliteTable("analytics", {
+	id: text("id").notNull().primaryKey(),
+	shortUrlId: text("short_url_id")
+		.notNull()
+		.references(() => shortUrlTable.id),
+	clickedAt: integer("clicked_at").notNull(),
+	country: text("country"),
+	city: text("city"),
+});

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { shortUrlTable } from "@/db/schema";
+import { shortUrlTable, analyticsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { generateIdFromEntropySize } from "lucia";
 
 export const runtime = "edge";
 
@@ -14,6 +15,18 @@ export async function GET(request: NextRequest, { params }: { params: { shortCod
 		});
 
 		if (shortUrl) {
+			// Only log the analytics if the request is not from the details page
+			if (!request.headers.get("Referer")?.includes(`/url/${shortUrl.id}`)) {
+				const analyticsId = generateIdFromEntropySize(16);
+				await db.insert(analyticsTable).values({
+					id: analyticsId,
+					shortUrlId: shortUrl.id,
+					clickedAt: Date.now(),
+					country: request.geo?.country || null,
+					city: request.geo?.city || null,
+				});
+			}
+
 			return NextResponse.redirect(shortUrl.originalUrl);
 		} else {
 			return NextResponse.redirect(new URL("/404", request.url));

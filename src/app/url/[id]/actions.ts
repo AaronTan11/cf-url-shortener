@@ -1,9 +1,10 @@
 "use server";
 
 import { db } from "@/db";
-import { shortUrlTable } from "@/db/schema";
+import { analyticsTable, shortUrlTable } from "@/db/schema";
 import { validateRequest } from "@/lib/validate-request";
-import { eq } from "drizzle-orm";
+
+import { eq, count } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 export async function getShortUrl(id: string) {
@@ -22,4 +23,21 @@ export async function getShortUrl(id: string) {
 		console.error("Error fetching short URL:", error);
 		return redirect("/");
 	}
+}
+
+export async function getAnalytics(shortUrlId: string) {
+	const analytics = await db
+		.select()
+		.from(analyticsTable)
+		.where(eq(analyticsTable.shortUrlId, shortUrlId));
+
+	const totalClicks = analytics.length;
+	const countries = analytics.map((a) => a.country);
+	const cities = analytics.map((a) => a.city);
+
+	return {
+		totalClicks,
+		countries,
+		cities,
+	};
 }
