@@ -13,3 +13,10 @@ export const sessionTable = sqliteTable("session", {
 		.references(() => userTable.id),
 	expiresAt: integer("expires_at").notNull(),
 });
+
+export const shortUrlTable = sqliteTable("short_url", {
+	id: text("id").notNull().primaryKey(),
+	originalUrl: text("original_url").notNull(),
+	shortCode: text("short_code").notNull(),
+	title: text("title").notNull(),
+});
