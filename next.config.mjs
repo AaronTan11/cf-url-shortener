@@ -12,6 +12,14 @@ const nextConfig = {
 	experimental: {
 		serverComponentsExternalPackages: ["@node-rs/argon2"],
 	},
+	async rewrites() {
+		return [
+			{
+				source: "/:shortCode",
+				destination: "/api/:shortCode",
+			},
+		];
+	},
 };
 
 export default nextConfig;

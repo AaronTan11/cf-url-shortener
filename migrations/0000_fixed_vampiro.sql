@@ -5,6 +5,13 @@ CREATE TABLE `session` (
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
+CREATE TABLE `short_url` (
+	`id` text PRIMARY KEY NOT NULL,
+	`original_url` text NOT NULL,
+	`short_code` text NOT NULL,
+	`title` text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,

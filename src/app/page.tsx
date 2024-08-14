@@ -4,8 +4,8 @@ import Link from "next/link";
 import { logout, shortenUrl } from "./actions";
 
 export default async function Home() {
-	// const { user } = await validateRequest();
-	const user = true;
+	const { user } = await validateRequest();
+
 	return (
 		<main className='flex min-h-screen flex-col items-center p-24 text-xl gap-10'>
 			{user && (

@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"dev:wrangler": "wrangler dev --local --d1 DB=6d46fdde-068c-4218-aa9c-e225453908c4",
+		"dev:wrangler": "wrangler pages dev --local --d1 DB=6d46fdde-068c-4218-aa9c-e225453908c4",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
